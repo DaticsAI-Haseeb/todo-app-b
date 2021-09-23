@@ -17,13 +17,31 @@ class CustomUser(AbstractUser):
         return self.email
 
 
-
-# class Tasks(models.Model):
-#     name = models.CharField(max_length=255)
-#     date_created = models.DateTimeField(auto_now_add=True)
-#     last_update = models.DateTimeField(auto_now=True)
+class Tasks(models.Model):
+    name = models.CharField(max_length=255)
+    date_created = models.DateTimeField(auto_now_add=True)
+    last_update = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     # priority
-    # ok
-    # created_by
+    PRIORITY_LOW = 'L'
+    PRIORITY_MEDIUM = 'M'
+    PRIORITY_HIGH = 'H'
+    PRIORITY_CHOICES = [
+        (PRIORITY_LOW, 'Low'),
+        (PRIORITY_MEDIUM, 'Medium'),
+        (PRIORITY_HIGH, 'High'),
+    ]
+    priority = models.CharField(max_length=1, choices=PRIORITY_CHOICES, default=PRIORITY_LOW)
 
-# class Description(models.Model):
+    def __str__(self):
+        return self.name
+
+
+class Description(models.Model):
+    name = models.CharField(max_length=255)
+    date_created = models.DateTimeField(auto_now_add=True)
+    last_update = models.DateTimeField(auto_now=True)
+    task = models.ForeignKey(Tasks, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
