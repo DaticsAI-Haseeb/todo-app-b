@@ -20,15 +20,18 @@ from rest_framework import routers, serializers, viewsets
 
 
 # Serializers define the API representation.
+import todo.models
+
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = User
+        model = todo.models.CustomUser
         fields = ['url', 'username', 'email', 'is_staff']
 
 
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
+    queryset = todo.models.CustomUser.objects.all()
     serializer_class = UserSerializer
 
 
