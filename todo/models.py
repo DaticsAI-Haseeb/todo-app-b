@@ -21,8 +21,8 @@ class Tasks(models.Model):
     name = models.CharField(max_length=255)
     date_created = models.DateTimeField(auto_now_add=True)
     last_update = models.DateTimeField(auto_now=True)
+    is_complete = models.BooleanField(default=False)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    # priority
     PRIORITY_LOW = 'L'
     PRIORITY_MEDIUM = 'M'
     PRIORITY_HIGH = 'H'
@@ -37,10 +37,11 @@ class Tasks(models.Model):
         return self.name
 
 
-class Description(models.Model):
+class List(models.Model):
     name = models.CharField(max_length=255)
     date_created = models.DateTimeField(auto_now_add=True)
     last_update = models.DateTimeField(auto_now=True)
+    is_complete = models.BooleanField(default=False)
     task = models.ForeignKey(Tasks, on_delete=models.CASCADE)
 
     def __str__(self):
