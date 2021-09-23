@@ -12,7 +12,7 @@ class Tasks(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     last_update = models.DateTimeField(auto_now=True)
     # priority
-
+    # ok
     # created_by
 
 # class Description(models.Model):
