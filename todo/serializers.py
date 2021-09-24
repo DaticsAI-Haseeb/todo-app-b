@@ -8,14 +8,22 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['is_superuser', 'email', 'is_staff', 'id']
 
 
-class TaskSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Task
-        # fields = ['name', 'is_complete', 'user', 'priority']
-        fields = '__all__'
-
-
 class SubTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubTask
-        fields = '__all__'
+        fields = ['id', 'name', 'date_created', 'last_update', 'is_complete']
+
+
+class TaskSerializer(serializers.ModelSerializer):
+    subtasks = SubTaskSerializer(many=True)
+
+    class Meta:
+        model = Task
+        fields = ['id', 'name', 'date_created', 'last_update', 'is_complete', 'user', 'priority', 'subtasks']
+
+    def create(self, validated_data):
+        subtasks_data = validated_data.pop('subtasks')
+        task = Task.objects.create(**validated_data)
+        for subtask_data in subtasks_data:
+            SubTask.objects.create(task=task, **subtask_data)
+        return task

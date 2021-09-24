@@ -43,7 +43,7 @@ class SubTask(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     last_update = models.DateTimeField(auto_now=True)
     is_complete = models.BooleanField(default=False)
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, related_name='subtasks', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
