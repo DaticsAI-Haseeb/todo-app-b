@@ -1,14 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-
+from .models import User, Task, SubTask
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from . import models
 
 
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
-    model = models.CustomUser
+    model = User
     list_display = ('email', 'is_staff', 'is_active',)
     list_filter = ('email', 'is_staff', 'is_active',)
     fieldsets = (
@@ -25,7 +24,14 @@ class CustomUserAdmin(UserAdmin):
     ordering = ('email',)
 
 
-admin.site.register(models.CustomUser, CustomUserAdmin)
-admin.site.register(models.Tasks)
-admin.site.register(models.List)
+class CustomTaskAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'date_created', 'last_update', 'is_complete', 'user', 'priority')
 
+
+class CustomSubTaskAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'date_created', 'last_update', 'is_complete', 'task')
+
+
+admin.site.register(User, CustomUserAdmin)
+admin.site.register(Task, CustomTaskAdmin)
+admin.site.register(SubTask, CustomSubTaskAdmin)
